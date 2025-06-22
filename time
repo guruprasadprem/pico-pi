@@ -1,0 +1,36 @@
+import network
+import time
+import ntptime
+
+# 1. Enter your Wi-Fi credentials
+ssid = 'iqoo'
+password = 'lkjhgfdsa'
+
+# 2. Connect to Wi-Fi
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect(ssid, password)
+
+print("Connecting to Wi-Fi...")
+while not wlan.isconnected():
+    print(".", end="")
+    time.sleep(1)
+
+print("\nConnected! IP:", wlan.ifconfig()[0])
+
+# 3. Set the time using an NTP server
+try:
+    ntptime.settime()
+    print("NTP time synced.")
+except:
+    print("NTP sync failed. Check Wi-Fi.")
+
+# 4. Display time every second in Thonny
+while True:
+    t = time.localtime()
+    current_time = "Current Time: {:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}".format(
+        t[0], t[1], t[2], t[3], t[4], t[5]
+    )
+    print(current_time)
+    time.sleep(1)
+
